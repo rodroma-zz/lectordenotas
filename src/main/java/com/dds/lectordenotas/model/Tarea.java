@@ -5,9 +5,9 @@ import org.uqbar.commons.model.annotations.Observable;
 @Observable
 public class Tarea {
     private Estudiante estudiante;
-    private String nota;
+    private Calificacion nota;
 
-    public Tarea(Estudiante estudiante, String nota) {
+    public Tarea(Estudiante estudiante, Calificacion nota) {
         this.estudiante = estudiante;
         this.nota = nota;
     }
@@ -20,11 +20,11 @@ public class Tarea {
         this.estudiante = estudiante;
     }
 
-    public String getNota() {
+    public Calificacion getNota() {
         return nota;
     }
 
-    public void setNota(String nota) {
+    public void setNota(Calificacion nota) {
         this.nota = nota;
     }
 }

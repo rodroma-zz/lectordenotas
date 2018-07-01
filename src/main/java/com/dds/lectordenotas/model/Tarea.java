@@ -4,27 +4,18 @@ import org.uqbar.commons.model.annotations.Observable;
 
 @Observable
 public class Tarea {
-    private Estudiante estudiante;
-    private Calificacion nota;
+    private final String nombre;
 
-    public Tarea(Estudiante estudiante, Calificacion nota) {
-        this.estudiante = estudiante;
-        this.nota = nota;
+    public Tarea(String nombre) {
+        this.nombre = nombre;
     }
 
-    public Estudiante getEstudiante() {
-        return estudiante;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setEstudiante(Estudiante estudiante) {
-        this.estudiante = estudiante;
-    }
-
-    public Calificacion getNota() {
-        return nota;
-    }
-
-    public void setNota(Calificacion nota) {
-        this.nota = nota;
+    @Override
+    public String toString() {
+        return nombre;
     }
 }

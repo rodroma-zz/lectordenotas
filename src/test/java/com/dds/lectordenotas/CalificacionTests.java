@@ -15,22 +15,22 @@ public class CalificacionTests {
 
     @Test
     public void unMalNoEstaAprobado() {
-        assertEquals(false, mal.aprobado());
+        assertEquals(false, mal.isAprobado());
     }
 
     @Test
     public void unBienEstaAprobado() {
-        assertEquals(true, bien.aprobado());
+        assertEquals(true, bien.isAprobado());
     }
 
     @Test
     public void unDosNoEstaAprobado() {
-        assertEquals(false, dos.aprobado());
+        assertEquals(false, dos.isAprobado());
     }
 
     @Test
     public void unSeisEstaAprobado() {
-        assertEquals(true, seis.aprobado());
+        assertEquals(true, seis.isAprobado());
     }
 
     @Test

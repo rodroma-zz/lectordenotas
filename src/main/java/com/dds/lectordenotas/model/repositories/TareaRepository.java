@@ -17,8 +17,4 @@ public class TareaRepository {
     public List<Tarea> todas() {
         return tareas;
     }
-
-    public List<Tarea> delEstudiante(Estudiante estudiante) {
-        return tareas.stream().filter(t -> t.getEstudiante().equals(estudiante)).collect(Collectors.toList());
-    }
 }

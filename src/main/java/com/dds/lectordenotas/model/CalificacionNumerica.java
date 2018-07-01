@@ -1,18 +1,22 @@
 package com.dds.lectordenotas.model;
 
+import org.uqbar.commons.model.annotations.Observable;
+
 import java.util.Objects;
 
-public class CalificacionNumerica implements Calificacion {
+@Observable
+public class CalificacionNumerica extends Calificacion {
     private final int numero;
 
     public CalificacionNumerica(int numero) {
+        super(String.valueOf(numero), numero > 5);
         if (numero < 1 || numero > 10)
             throw new IllegalArgumentException();
         this.numero = numero;
     }
 
     @Override
-    public boolean aprobado() {
+    public boolean isAprobado() {
         return numero > 5;
     }
 

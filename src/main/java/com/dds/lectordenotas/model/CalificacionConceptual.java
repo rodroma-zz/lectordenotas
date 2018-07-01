@@ -1,8 +1,11 @@
 package com.dds.lectordenotas.model;
 
+import org.uqbar.commons.model.annotations.Observable;
+
 import java.util.Objects;
 
-public class CalificacionConceptual implements Calificacion {
+@Observable
+public class CalificacionConceptual extends Calificacion {
     public enum Valor {
         MAL,
         REGULAR_MENOS,
@@ -16,16 +19,16 @@ public class CalificacionConceptual implements Calificacion {
     private final Valor valor;
 
     public CalificacionConceptual(Valor valor) {
+        super(stringify(valor), true);
         this.valor = valor;
     }
 
     @Override
-    public boolean aprobado() {
+    public boolean isAprobado() {
         return this.valor != Valor.MAL;
     }
 
-    @Override
-    public String toString() {
+    public static String stringify(Valor valor) {
         switch (valor) {
             case MAL: return "M";
             case REGULAR_MENOS: return "R-";

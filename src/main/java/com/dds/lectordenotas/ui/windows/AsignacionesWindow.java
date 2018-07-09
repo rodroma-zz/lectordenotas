@@ -1,7 +1,10 @@
 package com.dds.lectordenotas.ui.windows;
 
 import com.dds.lectordenotas.model.Asignacion;
+import com.dds.lectordenotas.model.Estudiante;
+import com.dds.lectordenotas.ui.utils.ReadOnlyTransformer;
 import com.dds.lectordenotas.ui.vm.AsignacionesViewModel;
+import org.uqbar.apo.Read;
 import org.uqbar.arena.bindings.ObservableProperty;
 import org.uqbar.arena.bindings.PropertyAdapter;
 import org.uqbar.arena.bindings.ValueTransformer;
@@ -30,12 +33,11 @@ public class AsignacionesWindow extends Dialog<AsignacionesViewModel> {
         
         Panel saludador = new Panel(parentContainer);
         saludador.setLayout(new HorizontalLayout());
-        // Por que no hay un Transformer mas simple para properties que SABES que no vas a editar desde ponele, un LABEL?
-        // Algo que reciba un Function<Model, View> ? La verbosidad es demasiada.
-        // Si no, hace que un hack horrible como este sea mucho menos verbose y facil de escribir :rolling_eyes:
-        new Label(saludador).setText("Hola");
-        new Label(saludador).bindValueToProperty("estudianteLogueado.nombre");
-        new Label(saludador).setText("!");
+
+        // Java sigue siendo verbose af, aparte no se porque AbstractReadOnlyTransformer lanza una excepcion :/
+        new Label(saludador)
+                .bindValueToProperty("estudianteLogueado")
+                .setTransformer(ReadOnlyTransformer.fromClosure((Estudiante estudiante) -> "Hola " + estudiante.getNombre() + "!", Estudiante.class, String.class));
 
         Panel form = new Panel(parentContainer);
         form.setLayout(new ColumnLayout(2));
@@ -52,8 +54,9 @@ public class AsignacionesWindow extends Dialog<AsignacionesViewModel> {
         new Label(form).bindValueToProperty("asignacionSeleccionada.ultimaCalificacion");
 
         new Label(form).setText("Aprobó?");
-        new Label(form).bindValueToProperty("asignacionSeleccionada.ultimaCalificacion.aprobado");
-        // Falta que se vea mas lindo el valor. Pero sigue teniendo el mismo problema de arriba.
+        new Label(form)
+                .bindValueToProperty("asignacionSeleccionada.ultimaCalificacion.aprobado")
+                .setTransformer(ReadOnlyTransformer.fromClosure((Boolean aprobo) -> aprobo ? "Si" : "No", boolean.class, String.class));
 
 
         Panel botonera = new Panel(parentContainer);

@@ -17,13 +17,14 @@ import org.uqbar.arena.widgets.Panel;
 import org.uqbar.arena.widgets.Selector;
 import org.uqbar.arena.windows.Dialog;
 import org.uqbar.arena.windows.WindowOwner;
+import org.uqbar.commons.model.utils.ObservableUtils;
 import org.uqbar.lacar.ui.model.ListBuilder;
 import org.uqbar.lacar.ui.model.bindings.Binding;
 
 public class AsignacionesWindow extends Dialog<AsignacionesViewModel> {
 
-    public AsignacionesWindow(WindowOwner parent) {
-        super(parent, new AsignacionesViewModel());
+    public AsignacionesWindow(WindowOwner parent, Estudiante estudianteLogueado) {
+        super(parent, new AsignacionesViewModel(estudianteLogueado));
     }
 
     @Override
@@ -36,8 +37,8 @@ public class AsignacionesWindow extends Dialog<AsignacionesViewModel> {
 
         // Java sigue siendo verbose af, aparte no se porque AbstractReadOnlyTransformer lanza una excepcion :/
         new Label(saludador)
-                .bindValueToProperty("estudianteLogueado")
-                .setTransformer(ReadOnlyTransformer.fromClosure((Estudiante estudiante) -> "Hola " + estudiante.getNombre() + "!", Estudiante.class, String.class));
+                .bindValueToProperty("estudianteLogueado.nombre");
+//                .setTransformer(ReadOnlyTransformer.fromClosure((Estudiante estudiante) -> "Hola " + estudiante.getNombre() + "!", Estudiante.class, String.class));
 
         Panel form = new Panel(parentContainer);
         form.setLayout(new ColumnLayout(2));
@@ -65,20 +66,21 @@ public class AsignacionesWindow extends Dialog<AsignacionesViewModel> {
         Button salir =
                 new Button(botonera)
                 .setCaption("Salir")
-                .setAsDefault()
                 .onClick(this::cancel);
 
         Button aDatosEstudiante =
                 new Button(botonera)
                 .setCaption("Editar datos")
+                .setAsDefault()
                 .onClick(this::editarDatos);
     }
 
     private void editarDatos() {
-        Dialog<?> window = new DatosEstudianteWindow(this);
+        Dialog<?> window = new DatosEstudianteWindow(this, this.getModelObject().getEstudianteLogueado());
 
         window.open();
-        // ???
-        window.onAccept(() -> {});
+        window.onAccept(() -> {
+            ObservableUtils.firePropertyChanged(this.getModelObject(), "estudianteLogueado");
+        });
     }
 }
